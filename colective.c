@@ -15,7 +15,6 @@ int main() {
   srand(time(NULL));
   
   int i;
-  
   int trainingDataRows = 4;
   int trainingDataCols = 4;
   int maxIterations = 10; //number of iterations that are going to be run 
@@ -30,6 +29,7 @@ int main() {
   char *fileName = "in.txt";
   
   char **trainingData = loadFromFile(fileName,trainingDataRows,trainingDataCols);
+
   
   //generating the random weights array
   for(i=0; i< trainingDataCols; i++){
@@ -41,12 +41,13 @@ int main() {
   while(numIterations < maxIterations && !(errC <= maxError)) {
     errC = 0;//Reset error after each iteration
     
-    printf("\nItertration %d @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", numIterations);
+    printf("\nIteration %d @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", numIterations);
     
     for(i =0; i<trainingDataRows; i++) { // Do for each row
-      
-      netTemp = calcRowNet(trainingDataCols,trainingData[i],weights);//storing the netTotal of each Row
+      netTemp = calcRowNet(trainingDataCols-1,trainingData[i],weights);//storing the netTotal of each Row
+      //printf("netTemp = %f\n",netTemp);
       output = (netTemp>.5) ? 1 : 0;
+      
       if(output != (trainingData[i][trainingDataCols-1]-48)) {//checks if weights need to be adjusted,if so then adjusts the weights
         sigma = (trainingData[i][trainingDataCols-1]-48) - output;
         correctWeights(trainingData[i],trainingDataCols-1, learningRate, sigma, weights);
@@ -72,12 +73,13 @@ int main() {
 
 
 
+
 /////////////////////////////////////////////////////////////////////////////////////
 double calcRowNet(int trainingDataCols, char *trainingData, double *weights){
   
   double dot = 0.0;
   int i;
-  for(i =0; i<trainingDataCols-2; i++){
+  for(i =0; i<trainingDataCols; i++){
     dot += (trainingData[i]-48)*weights[i]; //adds the answers to the variable dot
   }
   
