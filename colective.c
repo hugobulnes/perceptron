@@ -48,7 +48,7 @@ int main() {
       netTemp = calcRowNet(trainingDataCols,trainingData[i],weights);//storing the netTotal of each Row
       output = (netTemp>.5) ? 1 : 0;
       if(output != (trainingData[i][trainingDataCols-1]-48)) {//checks if weights need to be adjusted,if so then adjusts the weights
-        sigma = (trainingData[i][trainingDataCols-1]-48) - out;
+        sigma = (trainingData[i][trainingDataCols-1]-48) - output;
         correctWeights(trainingData[i],trainingDataCols-1, learningRate, sigma, weights);
         errC++; // Increase error 
       }//end of if 
@@ -157,7 +157,7 @@ void displayIterationResults(double errR, int numIterations, double *weights, in
   int i;
   for(i = 0; i < numCols; i++)
     printf("%.1f ", weights[i]); // Print Weights
-  printf("   Iteration Error = %.3f\n", errR); //Print Iteration Error
+  printf("   Iteration Error = %.2f\n", errR); //Print Iteration Error
 }
 
 /////////////////////////////////////////////////////////end of displayIterationResults
